@@ -93,6 +93,7 @@ export class ProductListingComponent implements OnInit {
     cart.push({ ...product, quantity: 1 });
     localStorage.setItem('cart', JSON.stringify(cart));
     this.cartCount = cart.length;
+    alert(`${product.name} added to cart!`);
   }
 
   toggleWishlist(id: number) {

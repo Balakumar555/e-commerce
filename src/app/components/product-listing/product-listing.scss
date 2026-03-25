@@ -122,7 +122,7 @@
     top: -6px;
     right: -6px;
     background: var(--accent);
-    color: #fff;
+    color: #05750d;
     border-radius: 50%;
     width: 18px;
     height: 18px;
@@ -235,7 +235,7 @@
   &.active {
     background: var(--accent);
     border-color: var(--accent);
-    color: #fff;
+    color: #3f379f;
     box-shadow: 0 4px 12px rgba(255,71,87,0.3);
   }
 }
@@ -493,7 +493,7 @@
   width: 100%;
   padding: 10px;
   background: var(--text);
-  color: #fff;
+  color: #bb18e9;
   border: none;
   border-radius: 10px;
   font-family: 'Plus Jakarta Sans', sans-serif;
