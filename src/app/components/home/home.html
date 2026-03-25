@@ -1,0 +1,44 @@
+<div class="home-wrapper">
+  <div class="bg-grid"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-icon">✈</span>
+      <span class="brand-name">AeroMRO</span>
+    </div>
+    <div class="user-section">
+      <span class="welcome"
+        >Welcome, <strong>{{ username }}</strong></span
+      >
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </header>
+
+  <main class="content">
+    <h2 class="page-title">Dashboard</h2>
+    <p class="page-sub">Happy Shopping</p>
+
+    <div class="cards-grid">
+      <div class="card clickable" (click)="goToProducts()">
+        🛍️
+        <div class="card-label">Products</div>
+        <div class="card-value">320</div>
+      </div>
+      <div class="card">
+        📦
+        <div class="card-label">Orders</div>
+        <div class="card-value">54</div>
+      </div>
+      <div class="card">
+        ⭐
+        <div class="card-label">Wishlist</div>
+        <div class="card-value">18</div>
+      </div>
+      <div class="card">
+        🛒
+        <div class="card-label">Cart Items</div>
+        <div class="card-value">3</div>
+      </div>
+    </div>
+  </main>
+</div>

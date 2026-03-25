@@ -1,0 +1,139 @@
+<div class="shop-wrapper">
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <span class="nav-logo">🛍️</span>
+      <span class="nav-name">ShopZone</span>
+    </div>
+
+    <div class="nav-search">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        [(ngModel)]="searchQuery"
+        placeholder="Search products..."
+        class="search-input"
+      />
+      <button *ngIf="searchQuery" class="clear-btn" (click)="searchQuery = ''">✕</button>
+    </div>
+
+    <div class="nav-actions">
+      <button class="nav-icon-btn" title="Wishlist">
+        ❤️ <span class="badge">{{ wishlist.length }}</span>
+      </button>
+      <button class="nav-icon-btn cart-btn" title="Cart">
+        🛒 <span class="badge">{{ cartCount }}</span>
+      </button>
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <!-- HERO BANNER -->
+  <div class="hero-banner">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Summer Sale 2024</p>
+      <h1 class="hero-title">Up to <span class="accent">70% OFF</span></h1>
+      <p class="hero-sub">On thousands of products across all categories</p>
+    </div>
+    <div class="hero-art">🎉</div>
+  </div>
+
+  <!-- CATEGORY CHIPS -->
+  <div class="categories-bar">
+    <button
+      *ngFor="let cat of categories"
+      class="cat-chip"
+      [class.active]="selectedCategory === cat"
+      (click)="selectedCategory = cat"
+    >
+      {{ cat }}
+    </button>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <p class="result-count">
+      <strong>{{ filteredProducts.length }}</strong> products found
+    </p>
+    <div class="toolbar-right">
+      <select [(ngModel)]="sortBy" class="sort-select">
+        <option value="featured">Featured</option>
+        <option value="newest">Newest</option>
+        <option value="price-asc">Price: Low to High</option>
+        <option value="price-desc">Price: High to Low</option>
+        <option value="rating">Top Rated</option>
+      </select>
+      <div class="view-toggle">
+        <button [class.active]="viewMode === 'grid'" (click)="viewMode = 'grid'">⊞</button>
+        <button [class.active]="viewMode === 'list'" (click)="viewMode = 'list'">☰</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PRODUCT GRID -->
+  <div class="products-container" [class.list-view]="viewMode === 'list'">
+
+    <div
+      *ngFor="let product of filteredProducts; let i = index"
+      class="product-card"
+      [class.out-of-stock]="!product.inStock"
+      [style.animation-delay]="i * 0.05 + 's'"
+    >
+      <!-- Badge -->
+      <div *ngIf="product.badge" class="product-badge">{{ product.badge }}</div>
+
+      <!-- Wishlist -->
+      <button
+        class="wishlist-btn"
+        [class.active]="isWishlisted(product.id)"
+        (click)="toggleWishlist(product.id)"
+      >{{ isWishlisted(product.id) ? '❤️' : '🤍' }}</button>
+
+      <!-- Image Area -->
+      <div class="product-image">
+        <span class="product-emoji">{{ product.image }}</span>
+        <div *ngIf="!product.inStock" class="oos-overlay">Out of Stock</div>
+      </div>
+
+      <!-- Info -->
+      <div class="product-info">
+        <span class="product-category">{{ product.category }}</span>
+        <h3 class="product-name">{{ product.name }}</h3>
+
+        <!-- Stars -->
+        <div class="rating-row">
+          <span *ngFor="let star of getStars(product.rating)" class="star" [class]="star">
+            {{ star === 'full' ? '★' : star === 'half' ? '⯨' : '☆' }}
+          </span>
+          <span class="review-count">({{ product.reviews | number }})</span>
+        </div>
+
+        <!-- Price -->
+        <div class="price-row">
+          <span class="price">₹{{ product.price | number }}</span>
+          <span class="original-price">₹{{ product.originalPrice | number }}</span>
+          <span class="discount-badge">{{ getDiscount(product) }}% off</span>
+        </div>
+
+        <!-- Add to Cart -->
+        <button
+          class="add-cart-btn"
+          [disabled]="!product.inStock"
+          (click)="addToCart(product)"
+        >
+          {{ product.inStock ? '🛒 Add to Cart' : 'Unavailable' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredProducts.length === 0" class="empty-state">
+      <div class="empty-icon">🔍</div>
+      <h3>No products found</h3>
+      <p>Try adjusting your search or category filter</p>
+      <button (click)="searchQuery = ''; selectedCategory = 'All'">Clear Filters</button>
+    </div>
+
+  </div>
+</div>
