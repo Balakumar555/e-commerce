@@ -1,18 +1,8 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-product-listing',
-//   imports: [],
-//   templateUrl: './product-listing.html',
-//   styleUrl: './product-listing.scss',
-// })
-// export class ProductListing {
-
-// }
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CartItem } from '../cart-list/cart-list';
 
 export interface Product {
   id: number;
@@ -41,6 +31,7 @@ export class ProductListingComponent implements OnInit {
   viewMode: 'grid' | 'list' = 'grid';
   cartCount = 0;
   wishlist: number[] = [];
+  cartItems: any[] = [];
 
   categories = ['All', 'Electronics', 'Fashion', 'Home', 'Sports', 'Beauty'];
 
@@ -81,19 +72,35 @@ export class ProductListingComponent implements OnInit {
     return result;
   }
 
-  ngOnInit() {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    this.cartCount = cart.length;
-    this.wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
-  }
+ngOnInit() {
+  const cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
+  this.cartCount = cart.length;
+  this.cartItems = cart; // if you display cart items on the listing page too
+  this.wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+}
 
   addToCart(product: Product) {
-    if (!product.inStock) return;
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  if (!product.inStock) return;
+
+  const cart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
+
+  const existingItem = cart.find(item => item.id === product.id);
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
     cart.push({ ...product, quantity: 1 });
-    localStorage.setItem('cart', JSON.stringify(cart));
-    this.cartCount = cart.length;
-    alert(`${product.name} added to cart!`);
+  }
+
+  localStorage.setItem('cart', JSON.stringify(cart));
+  this.cartItems = cart;
+  this.cartCount = cart.length; // <= update this after add
+  alert(`${product.name} added to cart!`);
+}
+
+  cartList() {
+    this.cartItems = JSON.parse(localStorage.getItem('cart') || '[]');
+    //console.log('Cart Items:', this.cartItems);
+    this.router.navigate(['/cart'], { state: { cartItems: this.cartItems } });
   }
 
   toggleWishlist(id: number) {

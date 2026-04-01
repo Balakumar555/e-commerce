@@ -1,0 +1,59 @@
+<div>
+  <h2>My Cart</h2>  
+  Cart items: {{ cartItems.length }}
+
+   <div class="products-container" [class.list-view]="viewMode === 'list'">
+
+    <div
+      *ngFor="let product of cartItems; let i = index"
+      class="product-card"
+      [class.out-of-stock]="!product.inStock"
+      [style.animation-delay]="i * 0.05 + 's'"
+    >
+      <!-- Badge -->
+      <div *ngIf="product.badge" class="product-badge">{{ product.badge }}</div>
+      <div class="product-image">
+        <span class="product-emoji">{{ product.image }}</span>
+        <div *ngIf="!product.inStock" class="oos-overlay">Out of Stock</div>
+      </div>
+
+      <!-- Info -->
+      <div class="product-info">
+        <span class="product-category">{{ product.category }}</span>
+        <h3 class="product-name">{{ product.name }}</h3>
+
+        <!-- Stars -->
+        <div class="rating-row">
+          <!-- <span *ngFor="let star of getStars(product.rating)" class="star" [class]="star">
+            {{ star === 'full' ? '★' : star === 'half' ? '⯨' : '☆' }}
+          </span> -->
+          <span class="review-count">({{ product.reviews | number }})</span>
+        </div>
+
+        <!-- Price -->
+        <div class="price-row">
+          <span class="price">₹{{ product.price | number }}</span>
+          <span class="original-price">₹{{ product.originalPrice | number }}</span>
+          <!-- <span class="discount-badge">{{ getDiscount(product) }}% off</span> -->
+        </div>
+
+        <!-- Add to Cart -->
+        <button
+          class="add-cart-btn"
+          [disabled]="!product.inStock"
+          (click)="removeFromCart(product)"
+        >
+          {{ product.inStock ? '🛒 Remove from Cart' : 'Unavailable' }}
+          {{ product.quantity > 1 ? ' (Qty: ' + product.quantity + ')' : '' }}
+
+        </button>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="cartItems.length === 0" class="empty-state">
+      <p>No items in your cart.</p>
+    </div>
+  </div>
+ 
+</div>

@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
 })
 export class Home implements OnInit {
   username = '';
+  wishlistCount = 0;
+  cartCount = 0;
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {
@@ -18,6 +21,10 @@ export class Home implements OnInit {
       return;
     }
     this.username = localStorage.getItem('username') || 'User';
+    const wishlist = JSON.parse(localStorage.getItem('wishlist') || '[]');
+    this.wishlistCount = wishlist.length;
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    this.cartCount = cart.length;
   }
   logout() {
     localStorage.removeItem('username');

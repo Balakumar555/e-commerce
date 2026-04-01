@@ -22,7 +22,7 @@
       <button class="nav-icon-btn" title="Wishlist">
         ❤️ <span class="badge">{{ wishlist.length }}</span>
       </button>
-      <button class="nav-icon-btn cart-btn" title="Cart">
+      <button class="nav-icon-btn cart-btn" title="Cart" (click)="cartList()">
         🛒 <span class="badge">{{ cartCount }}</span>
       </button>
       <button class="logout-btn" (click)="logout()">Logout</button>
