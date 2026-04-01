@@ -34,7 +34,6 @@ export class CartList implements OnInit {
     this.cartItems = cart;
   }
   removeFromCart(product: CartItem) {
-    debugger;
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     const updatedCart = cart.filter((item: CartItem) => item.id !== product.id);
     localStorage.setItem('cart', JSON.stringify(updatedCart));
